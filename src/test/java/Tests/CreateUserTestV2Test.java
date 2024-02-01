@@ -1,6 +1,7 @@
 package Tests;
 
 import Actions.AccountActions;
+import Hooks.Hooks;
 import Objects.RequestObject.RequestAccount;
 import Objects.RequestObject.RequestAccountToken;
 import Objects.ResponseObject.ResponseAccountAuthSuccess;
@@ -13,7 +14,7 @@ import io.restassured.specification.RequestSpecification;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class CreateUserTest {
+public class CreateUserTestV2Test extends Hooks {
 
     public String userID;
     public String username;
@@ -27,9 +28,8 @@ public class CreateUserTest {
 
         System.out.println("Step 1 : Create User");
         createUser();
-
-//        System.out.println("Step 2 : Generate Token");
-//        generateToken();
+        System.out.println("Step 2 : Generate Token");
+        generateToken();
 //        System.out.println("Step 3 : Obtain new user");
 //        interractNewUser();
     }
@@ -37,49 +37,14 @@ public class CreateUserTest {
     public void createUser() {
 
         accountActions = new AccountActions();
+
         username = "AncaAnca" + System.currentTimeMillis();
         password = "ghemaR1966!";
+
         RequestAccount requestAccount = new RequestAccount(username, password);
         ResponseAccountSuccess responseAccountSuccess = accountActions.createNewAccount(requestAccount);
 
         userID = responseAccountSuccess.getUserID();
-
-        //Definim caracteristicile clientului
-//        RequestSpecification requestSpecification = RestAssured.given();
-//        requestSpecification.baseUri("https://demoqa.com");
-//        requestSpecification.contentType("application/json");
-
-        //Configuram requestul
-
-//        JSONObject requestbody = new JSONObject();
-//        requestbody.put("userName", username);
-//        requestbody.put("password", "ghemaR1966!");
-
-
-//        requestSpecification.body(requestAccount);
-
-        //Accesam response-ul
-
-//        Response response = requestSpecification.post("/Account/v1/User");
-////        System.out.println(response.body());
-//        ResponseBody body = response.getBody();
-//        body.prettyPrint();
-
-        //Validam statusul requestului
-
-//        System.out.println(response.getStatusCode());
-//        Assert.assertEquals(response.getStatusCode(), 201); // principala validare
-//
-//        //Validam response body
-//
-//        ResponseAccountSuccess responseAccountSuccess = response.body().as(ResponseAccountSuccess.class);
-////        System.out.println(responseAccountSuccess.getUserID());
-//
-//        Assert.assertNotNull(responseAccountSuccess.getUserID()); // verificam ca exista o valoare pt field
-//        Assert.assertEquals(responseAccountSuccess.getUsername(), username); // verificam ca username are valoarea din request
-//        Assert.assertNotNull(responseAccountSuccess.getBooks());
-//
-
     }
 
 
@@ -87,28 +52,14 @@ public class CreateUserTest {
 
     public void generateToken(){
 
+        accountActions = new AccountActions();
+
         RequestSpecification requestSpecification = RestAssured.given();
         requestSpecification.baseUri("https://demoqa.com");
         requestSpecification.contentType("application/json");
 
         RequestAccountToken requestAccountToken = new RequestAccountToken(username,password);
-        requestSpecification.body(requestAccountToken);
-
-        //Accesam response-ul
-
-        Response response = requestSpecification.post("/Account/v1/GenerateToken");
-//        System.out.println(response.body());
-        ResponseBody body = response.getBody();
-        body.prettyPrint();
-
-        Assert.assertEquals(response.getStatusCode(), 200);
-
-        ResponseTokenSuccess responseTokenSuccess = response.body().as(ResponseTokenSuccess.class);
-
-        Assert.assertNotNull(responseTokenSuccess.getToken()); // verificam ca exista o valoare pt field
-        Assert.assertNotNull(responseTokenSuccess.getExpires()); // verificam ca username are valoarea din request
-        Assert.assertEquals(responseTokenSuccess.getStatus(),"Success");
-        Assert.assertEquals(responseTokenSuccess.getResult(),"User authorized successfully.");
+        ResponseTokenSuccess responseTokenSuccess = accountActions.generateToken(requestAccountToken);
 
         token = responseTokenSuccess.getToken();
     }

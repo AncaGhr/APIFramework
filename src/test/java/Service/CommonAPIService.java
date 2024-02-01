@@ -15,7 +15,7 @@ public class CommonAPIService {
         RequestSpecification requestSpecification = RestAssured.given();
         requestSpecification.body(body);
 
-        //Trebuie sa implementam log-urile pentru request si response
+        APIServiceHelper.requestLogs(requestSpecification, URL, RestRequestType.REQUEST_POST);
 
         Response response = performRequest(RestRequestType.REQUEST_POST, requestSpecification, URL);
         return  response;
