@@ -9,6 +9,8 @@ public class ResponseTokenSuccess {
     @JsonProperty("token")
     private String token;
     @JsonProperty("expires")
+
+    //invatam conceptul Compozitie (verisor cu mostenirea) - compozitia construieste obiecte
     private String expires;
     @JsonProperty("status")
     private String status;

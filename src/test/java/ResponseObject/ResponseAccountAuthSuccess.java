@@ -10,6 +10,8 @@ public class ResponseAccountAuthSuccess {
     private String userId;
     @JsonProperty("username")
     private String username;
+
+    //invatam conceptul Compozitie (verisor cu mostenirea) - compozitia construieste obiecte
     @JsonProperty("books")
     private List<BookObject> books;
 

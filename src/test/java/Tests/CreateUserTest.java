@@ -3,6 +3,7 @@ package Tests;
 import RequestObject.RequestAccount;
 import RequestObject.RequestAccountToken;
 import ResponseObject.ResponseAccountAuthSuccess;
+import ResponseObject.ResponseAccountFailed;
 import ResponseObject.ResponseAccountSuccess;
 import ResponseObject.ResponseTokenSuccess;
 import io.restassured.RestAssured;
@@ -19,6 +20,8 @@ public class CreateUserTest {
     public String username;
     public String password;
     public String token;
+    public Integer code;
+    public String message;
 
     @Test
     public void testMethod(){
@@ -29,7 +32,7 @@ public class CreateUserTest {
         generateToken();
         System.out.println("Step 3 : Obtain new user");
         interractNewUser();
-
+        System.out.println("Step Optional : Create user duplicate and then fail");
     }
 
     public  void createUser(){
@@ -125,4 +128,5 @@ public class CreateUserTest {
         Assert.assertEquals(responseAccountAuthSuccess.getUsername(), username); // verificam ca username are valoarea din request
         Assert.assertNotNull(responseAccountAuthSuccess.getBooks());
     }
+
 }
