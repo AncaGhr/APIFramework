@@ -9,4 +9,6 @@ public interface AccountServiceInterface {
     Response createAccount(RequestAccount requestAccount);
     Response generateToken(RequestAccountToken requestAccountToken);
     Response getSpecificAccount(String userID, String token);
+
+    Response deleteSpecificUser(String userID, String token);
 }

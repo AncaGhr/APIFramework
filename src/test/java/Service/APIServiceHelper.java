@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.internal.RequestSpecificationImpl;
 import io.restassured.mapper.ObjectMapperDeserializationContext;
 import io.restassured.mapper.ObjectMapperSerializationContext;
+import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.runner.Request;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,16 +22,32 @@ public class APIServiceHelper {
         LoggerUtility.info(getRequestBody(requestSpecification));
     }
 
+    public static void responseLogs(Response response){
+        LoggerUtility.info("===Response Info===");
+        LoggerUtility.info(getResponseStatusCode(response));
+        LoggerUtility.info(getResponseStatus(response));
+        LoggerUtility.info(getResponseBody(response));
+    }
+
+    private static String getResponseStatusCode(Response response){
+        return "Response Status :" + response.getStatusLine();
+    }
+
+    private static  String getResponseStatus(Response response){
+        return "Response Status Code : " + response.getStatusCode();
+
+    }
+
     private static String getRequestUrl(String path) {
-        return "Request URL:" + "https://demoqa.com" + path;
+        return "Request URL :" + "https://demoqa.com" + path;
     }
 
     private static String getRequestMethod(String method) {
-        return "Request METHOD:" + method;
+        return "Request METHOD :" + method;
     }
 
     private static String getRequestBody(RequestSpecification requestSpecification) {
-        String requestBody = "Request BODY: \n ";
+        String requestBody = "Request BODY : \n ";
         Object object = ((RequestSpecificationImpl) requestSpecification).getBody();
         if (object != null) {
             ObjectMapper mapper = new ObjectMapper();
@@ -39,5 +56,14 @@ public class APIServiceHelper {
             } catch (JsonProcessingException e) {}
         }
         return requestBody;
+    }
+
+    private static String getResponseBody(Response response){
+        if(response.getBody() !=null){
+            return "Response Body : \n" +response.getBody().asPrettyString();
+        }
+        else {
+            return "Response Body : \n";
+        }
     }
 }

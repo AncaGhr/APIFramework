@@ -10,6 +10,6 @@ public class RestRequestSatus {
 
     //4XX
     public static final Integer SC_NOTACCEPTABLE = 406;
-
+    public static final Integer SC_UNAUTHORIZED = 401;
 
 }
